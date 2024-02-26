@@ -1,5 +1,5 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
+from keyboards.cancel_kb import cancel_button
 
 male_button = InlineKeyboardButton(
         text='Мужской',
@@ -10,7 +10,7 @@ female_button = InlineKeyboardButton(
         callback_data='female'
 )
 keyboard: list[list[InlineKeyboardButton]] = [
-        [male_button],
-        [female_button]
+        [male_button, female_button],
+        [cancel_button]
 ]
 sex_markup = InlineKeyboardMarkup(inline_keyboard=keyboard)

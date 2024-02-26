@@ -6,10 +6,14 @@ from aiogram import Bot, Dispatcher
 from keyboards.main_menu import set_main_menu
 from handlers import user_handlers
 from config.config import load_config
-from handlers.user_handlers import storage
+from aiogram.fsm.storage.redis import RedisStorage, Redis
 
 
 logger = logging.getLogger(__name__)
+
+redis = Redis(host='localhost')
+
+storage = RedisStorage(redis=redis)
 
 
 async def main():
@@ -19,12 +23,13 @@ async def main():
                '[%(asctime)s] - %(name)s - %(message)s'
     )
     logger.info('Starting bot')
-    config = load_config('/config')
+    config = load_config()
 
     bot = Bot(
         token=config.tg_bot.token
     )
     dp = Dispatcher(storage=storage)
+
     await set_main_menu(bot)
 
     dp.include_router(user_handlers.router)
